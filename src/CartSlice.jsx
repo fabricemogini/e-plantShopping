@@ -44,6 +44,27 @@ const CartItem = ({ onContinueShopping }) => {
     return parseFloat(item.cost.substring(1)) * item.quantity;
   };
 
+  const CartSlice = createSlice({
+    name: 'cart',
+    initialState: {
+      items: []
+    },
+    reducers: {
+      addItem: (state, action) => {
+        // your addItem logic
+      },
+      removeItem: (state, action) => {
+        state.items = state.items.filter(item => item.name !== action.payload);
+      },
+      updateQuantity: (state, action) => {
+        const { name, quantity } = action.payload;
+        const item = state.items.find(item => item.name === name);
+        if (item) {
+          item.quantity = quantity;
+        }
+      }
+    }
+  });
 
   return (
     <div className="cart-container">
@@ -76,7 +97,12 @@ const CartItem = ({ onContinueShopping }) => {
   );
 };
 
-export default CartItem;
+
+export const { addItem, removeItem, updateQuantity } = CartSlice.actions;
+export default CartSlice.reducer;
+
+
+
 
 
 
